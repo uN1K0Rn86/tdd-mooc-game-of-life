@@ -129,4 +129,12 @@ describe("Pattern parser", () => {
 
     expect(parsedPattern).to.deep.equal(new Set(["0,0", "1,0", "0,1", "1,1"]));
   });
+
+  test("returns correct set for glider pattern", () => {
+    const pattern = "bob$2bo$3o!";
+
+    const parsedPattern = parsePattern(pattern);
+
+    expect(parsedPattern).to.deep.equal(new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]));
+  });
 });

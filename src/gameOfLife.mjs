@@ -55,6 +55,7 @@ export function parsePattern(pattern) {
       x = 0;
     } else if (char === "b") {
       x += parseInt(count || "1");
+      count = "";
     } else if (char === "o") {
       const amount = parseInt(count || "1");
       for (let i = 0; i < amount; i++) {
