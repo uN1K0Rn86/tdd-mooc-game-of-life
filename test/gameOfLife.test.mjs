@@ -73,4 +73,29 @@ describe("RLE file parser", () => {
       pattern: "bob$2bo$3o!",
     });
   });
+
+  test("returns an appropriate object after processing blinker input", () => {
+    const input = dedent`
+      #N Blinker
+      #O John Conway
+      #C A period 2 oscillator that is the smallest and most common oscillator.
+      #C www.conwaylife.com/wiki/index.php?title=Blinker
+      x = 3, y = 1, rule = B3/S23
+      3o!`;
+
+    const parsedInput = parseInput(input);
+
+    expect(parsedInput).to.deep.equal({
+      name: "Blinker",
+      filedata: "John Conway",
+      comments: [
+        "A period 2 oscillator that is the smallest and most common oscillator.",
+        "www.conwaylife.com/wiki/index.php?title=Blinker",
+      ],
+      width: 3,
+      height: 1,
+      rule: "B3/S23",
+      pattern: "3o!",
+    });
+  });
 });
