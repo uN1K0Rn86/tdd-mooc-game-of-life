@@ -28,7 +28,11 @@ export function parseInput(fileContents) {
     } else if (line.startsWith("#O")) {
       result.filedata = line.replace("#O ", "");
     } else {
-      result.pattern = line;
+      if (!result.pattern) {
+        result.pattern = line;
+      } else {
+        result.pattern = result.pattern + line;
+      }
     }
   }
 

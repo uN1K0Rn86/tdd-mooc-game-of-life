@@ -73,7 +73,7 @@ describe("RLE file parser", () => {
       pattern: "bob$2bo$3o!",
     });
   });
-
+  // My OBS crashed, in the meantime I added this test for blinker input before noticing
   test("returns an appropriate object after processing blinker input", () => {
     const input = dedent`
       #N Blinker
@@ -96,6 +96,27 @@ describe("RLE file parser", () => {
       height: 1,
       rule: "B3/S23",
       pattern: "3o!",
+    });
+  });
+
+  test("returns an appropriate object after processing glider gun input", () => {
+    const input = dedent`
+      #N Gosper glider gun
+      #C This was the first gun discovered.
+      #C As its name suggests, it was discovered by Bill Gosper.
+      x = 36, y = 9, rule = B3/S23
+      24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b
+      obo$10bo5bo7bo$11bo3bo$12b2o!`;
+
+    const parsedInput = parseInput(input);
+
+    expect(parsedInput).to.deep.equal({
+      name: "Gosper glider gun",
+      comments: ["This was the first gun discovered.", "As its name suggests, it was discovered by Bill Gosper."],
+      width: 36,
+      height: 9,
+      rule: "B3/S23",
+      pattern: "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!",
     });
   });
 });
