@@ -5,6 +5,7 @@ export async function readRLEfile(filepath) {
   return fileContents;
 }
 
-export function gameOfLife(filepath, generations) {
+export async function gameOfLife(filepath, generations) {
+  const input = await readRLEfile(filepath);
   return 1;
 }

@@ -8,8 +8,10 @@ import dedent from "dedent";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 describe("Walking skeleton", () => {
-  test("does not fail with RLE file input and generations", () => {
-    expect(gameOfLife("../testdata/block.rle", 1)).to.be.ok;
+  test("does not fail with RLE file input and generations", async () => {
+    const testFilePath = path.resolve(__dirname, "../testdata/block.rle");
+    const gOL = await gameOfLife(testFilePath, 1);
+    expect(gOL).to.be.ok;
   });
 });
 
@@ -26,4 +28,8 @@ describe("RLE file reader", () => {
       2o$2o!
     `);
   });
+});
+
+describe("RLE file parser", () => {
+  test("returns an appropriate object after processing input", () => {});
 });
