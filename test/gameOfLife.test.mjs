@@ -1,6 +1,6 @@
 import { describe, test } from "vitest";
 import { expect } from "chai";
-import { gameOfLife, readRLEfile, parseInput } from "../src/gameOfLife.mjs";
+import { gameOfLife, readRLEfile, parseInput, parsePattern } from "../src/gameOfLife.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
 import dedent from "dedent";
@@ -73,7 +73,7 @@ describe("RLE file parser", () => {
       pattern: "bob$2bo$3o!",
     });
   });
-  // My OBS crashed, in the meantime I added this test for blinker input before noticing
+
   test("returns an appropriate object after processing blinker input", () => {
     const input = dedent`
       #N Blinker
@@ -118,5 +118,15 @@ describe("RLE file parser", () => {
       rule: "B3/S23",
       pattern: "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!",
     });
+  });
+});
+
+describe("Pattern parser", () => {
+  test("returns a set of live cells formatted as comma-separated strings x,y", () => {
+    const pattern = "2o$2o!";
+
+    const parsedPattern = parsePattern(pattern);
+
+    expect(parsedPattern).to.deep.equal(new Set(["0,0", "1,0", "0,1", "1,1"]));
   });
 });

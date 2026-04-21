@@ -39,7 +39,37 @@ export function parseInput(fileContents) {
   return result;
 }
 
+export function parsePattern(pattern) {
+  let x = 0;
+  let y = 0;
+  let count = "";
+  const liveCells = new Set();
+
+  for (const char of pattern) {
+    if (char === "!") break;
+
+    if (!isNaN(Number(char))) {
+      count += char;
+    } else if (char === "$") {
+      y += 1;
+      x = 0;
+    } else if (char === "b") {
+      x += parseInt(count || "1");
+    } else if (char === "o") {
+      const amount = parseInt(count || "1");
+      for (let i = 0; i < amount; i++) {
+        liveCells.add(`${x + i},${y}`);
+      }
+      x += amount;
+      count = "";
+    }
+  }
+  return liveCells;
+}
+
 export async function gameOfLife(filepath, generations) {
   const input = await readRLEfile(filepath);
+  const parsedInput = parseInput(input);
+  const parsedPattern = parsePattern(parsedInput.pattern);
   return 1;
 }
