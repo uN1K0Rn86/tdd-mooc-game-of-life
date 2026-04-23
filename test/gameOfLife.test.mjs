@@ -137,4 +137,52 @@ describe("Pattern parser", () => {
 
     expect(parsedPattern).to.deep.equal(new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]));
   });
+
+  test("returns correct set for gosper glider gun pattern", () => {
+    const pattern =
+      "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!";
+
+    const parsedPattern = parsePattern(pattern);
+
+    expect(parsedPattern).to.deep.equal(
+      new Set([
+        "24,0",
+        "22,1",
+        "24,1",
+        "12,2",
+        "13,2",
+        "20,2",
+        "21,2",
+        "34,2",
+        "35,2",
+        "11,3",
+        "15,3",
+        "20,3",
+        "21,3",
+        "34,3",
+        "35,3",
+        "0,4",
+        "1,4",
+        "10,4",
+        "16,4",
+        "20,4",
+        "21,4",
+        "0,5",
+        "1,5",
+        "10,5",
+        "14,5",
+        "16,5",
+        "17,5",
+        "22,5",
+        "24,5",
+        "10,6",
+        "16,6",
+        "24,6",
+        "11,7",
+        "15,7",
+        "12,8",
+        "13,8",
+      ]),
+    );
+  });
 });
