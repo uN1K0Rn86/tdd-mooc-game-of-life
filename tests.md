@@ -7,3 +7,5 @@
 - Additional tests for different patterns
 
 - Game of life function can be called recursively and provides correct results
+
+- Patterns in set form can be converted back to rle format patterns

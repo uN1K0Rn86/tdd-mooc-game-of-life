@@ -221,4 +221,20 @@ describe("Game of Life", () => {
       expect(gameOfLife(blinkerPattern, 2)).to.deep.equal(new Set(["0,0", "1,0", "2,0"]));
     });
   });
+
+  describe("multiple generations", () => {
+    test("50 generations of glider patterns returns correct result", () => {
+      const gliderPattern = new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]);
+
+      expect(gameOfLife(gliderPattern, 50)).to.deep.equal(new Set(["14,13", "12,14", "14,14", "13,15", "14,15"]));
+    });
+
+    test("1000 generations of glider patterns returns correct result", () => {
+      const gliderPattern = new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]);
+
+      expect(gameOfLife(gliderPattern, 1000)).to.deep.equal(
+        new Set(["251,250", "252,251", "250,252", "251,252", "252,252"]),
+      );
+    });
+  });
 });
