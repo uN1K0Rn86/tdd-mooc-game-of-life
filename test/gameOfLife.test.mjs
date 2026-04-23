@@ -189,8 +189,14 @@ describe("Pattern parser", () => {
 
 describe("Game of Life", () => {
   test("is applied to block pattern for one generation with correct result", () => {
-    const parsedPattern = new Set(["0,0", "1,0", "0,1", "1,1"]);
+    const blockPattern = new Set(["0,0", "1,0", "0,1", "1,1"]);
 
-    expect(gameOfLife(parsedPattern, 1)).to.deep.equal(new Set(["0,0", "1,0", "0,1", "1,1"]));
+    expect(gameOfLife(blockPattern, 1)).to.deep.equal(new Set(["0,0", "1,0", "0,1", "1,1"]));
+  });
+
+  test("is applied to glider pattern for one generation with correct result", () => {
+    const gliderPattern = new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]);
+
+    expect(gameOfLife(gliderPattern, 1)).to.deep.equal(new Set(["0,1", "2,1", "1,2", "2,2", "1,3"]));
   });
 });

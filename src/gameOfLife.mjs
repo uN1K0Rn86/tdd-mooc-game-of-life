@@ -70,26 +70,38 @@ export function parsePattern(pattern) {
 
 export function gameOfLife(parsedPattern, generations) {
   const newPattern = new Set();
+  const neighborCounts = new Map();
 
   for (const liveCell of parsedPattern) {
     const coordinates = liveCell.split(",");
     const x = parseInt(coordinates[0]);
     const y = parseInt(coordinates[1]);
-    let neighbors = 0;
+    let liveNeighbors = 0;
+
     for (let i = x - 1; i < x + 2; i++) {
       for (let j = y - 1; j < y + 2; j++) {
         if (!(i === x && j === y)) {
-          if (parsedPattern.has(`${i},${j}`)) {
-            neighbors += 1;
+          const neighborKey = `${i},${j}`;
+          if (parsedPattern.has(neighborKey)) {
+            liveNeighbors += 1;
           }
+          const count = neighborCounts.get(neighborKey) || 0;
+          neighborCounts.set(neighborKey, count + 1);
         }
       }
     }
 
-    if (neighbors >= 2 && neighbors <= 3) {
+    if (liveNeighbors >= 2 && liveNeighbors <= 3) {
       newPattern.add(liveCell);
     }
   }
+
+  for (const [key, count] of neighborCounts) {
+    if (count === 3) {
+      newPattern.add(key);
+    }
+  }
+
   return newPattern;
 }
 
