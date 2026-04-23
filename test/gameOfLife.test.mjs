@@ -1,6 +1,6 @@
 import { describe, test } from "vitest";
 import { expect } from "chai";
-import { gameOfLife, readRLEfile, parseInput, parsePattern } from "../src/gameOfLife.mjs";
+import { main, gameOfLife, readRLEfile, parseInput, parsePattern } from "../src/gameOfLife.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
 import dedent from "dedent";
@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 describe("Walking skeleton", () => {
   test("does not fail with RLE file input and generations", async () => {
     const testFilePath = path.resolve(__dirname, "../testdata/block.rle");
-    const gOL = await gameOfLife(testFilePath, 1);
+    const gOL = await main(testFilePath, 1);
     expect(gOL).to.be.ok;
   });
 });
@@ -184,5 +184,13 @@ describe("Pattern parser", () => {
         "13,8",
       ]),
     );
+  });
+});
+
+describe("Game of Life", () => {
+  test("is applied to block pattern for one generation with correct result", () => {
+    const parsedPattern = new Set(["0,0", "1,0", "0,1", "1,1"]);
+
+    expect(gameOfLife(parsedPattern, 1)).to.deep.equal(new Set(["0,0", "1,0", "0,1", "1,1"]));
   });
 });

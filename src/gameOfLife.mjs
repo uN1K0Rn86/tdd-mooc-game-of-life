@@ -68,7 +68,11 @@ export function parsePattern(pattern) {
   return liveCells;
 }
 
-export async function gameOfLife(filepath, generations) {
+export function gameOfLife(parsedPattern, generations) {
+  return parsedPattern;
+}
+
+export async function main(filepath, generations) {
   const input = await readRLEfile(filepath);
   const parsedInput = parseInput(input);
   const parsedPattern = parsePattern(parsedInput.pattern);
