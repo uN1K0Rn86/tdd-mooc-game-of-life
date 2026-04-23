@@ -199,4 +199,10 @@ describe("Game of Life", () => {
 
     expect(gameOfLife(gliderPattern, 1)).to.deep.equal(new Set(["0,1", "2,1", "1,2", "2,2", "1,3"]));
   });
+
+  test("is applied to blinker pattern for one generation with correct results", () => {
+    const blinkerPattern = new Set(["0,0", "1,0", "2,0"]);
+
+    expect(gameOfLife(blinkerPattern, 1)).to.deep.equal(new Set(["1,-1", "1,0", "1,1"]));
+  });
 });
