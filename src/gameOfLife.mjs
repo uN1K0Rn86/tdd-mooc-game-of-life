@@ -69,6 +69,7 @@ export function parsePattern(pattern) {
 }
 
 export function gameOfLife(parsedPattern, generations) {
+  if (generations === 0) return parsedPattern;
   const newPattern = new Set();
   const neighborCounts = new Map();
 
@@ -102,7 +103,7 @@ export function gameOfLife(parsedPattern, generations) {
     }
   }
 
-  return newPattern;
+  return gameOfLife(newPattern, generations - 1);
 }
 
 export async function main(filepath, generations) {

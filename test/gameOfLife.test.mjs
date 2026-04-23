@@ -188,21 +188,37 @@ describe("Pattern parser", () => {
 });
 
 describe("Game of Life", () => {
-  test("is applied to block pattern for one generation with correct result", () => {
-    const blockPattern = new Set(["0,0", "1,0", "0,1", "1,1"]);
+  describe("single generation", () => {
+    test("is applied to block pattern with correct result", () => {
+      const blockPattern = new Set(["0,0", "1,0", "0,1", "1,1"]);
 
-    expect(gameOfLife(blockPattern, 1)).to.deep.equal(new Set(["0,0", "1,0", "0,1", "1,1"]));
+      expect(gameOfLife(blockPattern, 1)).to.deep.equal(new Set(["0,0", "1,0", "0,1", "1,1"]));
+    });
+
+    test("is applied to glider pattern with correct result", () => {
+      const gliderPattern = new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]);
+
+      expect(gameOfLife(gliderPattern, 1)).to.deep.equal(new Set(["0,1", "2,1", "1,2", "2,2", "1,3"]));
+    });
+
+    test("is applied to blinker pattern with correct results", () => {
+      const blinkerPattern = new Set(["0,0", "1,0", "2,0"]);
+
+      expect(gameOfLife(blinkerPattern, 1)).to.deep.equal(new Set(["1,-1", "1,0", "1,1"]));
+    });
   });
 
-  test("is applied to glider pattern for one generation with correct result", () => {
-    const gliderPattern = new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]);
+  describe("two generations", () => {
+    test("is applied to glider pattern with correct result", () => {
+      const gliderPattern = new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]);
 
-    expect(gameOfLife(gliderPattern, 1)).to.deep.equal(new Set(["0,1", "2,1", "1,2", "2,2", "1,3"]));
-  });
+      expect(gameOfLife(gliderPattern, 2)).to.deep.equal(new Set(["2,1", "0,2", "2,2", "1,3", "2,3"]));
+    });
 
-  test("is applied to blinker pattern for one generation with correct results", () => {
-    const blinkerPattern = new Set(["0,0", "1,0", "2,0"]);
+    test("is applied to blinker pattern with correct results", () => {
+      const blinkerPattern = new Set(["0,0", "1,0", "2,0"]);
 
-    expect(gameOfLife(blinkerPattern, 1)).to.deep.equal(new Set(["1,-1", "1,0", "1,1"]));
+      expect(gameOfLife(blinkerPattern, 2)).to.deep.equal(new Set(["0,0", "1,0", "2,0"]));
+    });
   });
 });
