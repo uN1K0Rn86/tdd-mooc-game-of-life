@@ -126,50 +126,46 @@ export function rleConverter(setPattern) {
 
   patternArray.sort((a, b) => a[1] - b[1] || a[0] - b[0]);
 
-  let lastX = xmin;
-  let lastY = ymin;
+  let currentX = xmin;
+  let currentY = ymin;
   let rlePattern = "";
   let liveCount = 0;
 
   for (const coord of patternArray) {
     const [x, y] = coord;
-    const gap = x - lastX;
 
-    if (y > lastY) {
+    if (y > currentY) {
+      const endGap = xmax - currentX + 1;
+
       if (liveCount === 1) {
         rlePattern += "o";
       }
       if (liveCount >= 2) {
         rlePattern += `${liveCount}o`;
+      }
+      if (endGap > 0) {
+        rlePattern += endGap >= 2 ? `${endGap}b` : "b";
       }
       rlePattern += "$";
-      lastY = y;
-      lastX = xmin;
+      currentY = y;
+      currentX = xmin;
       liveCount = 0;
     }
 
-    if (gap >= 0 && gap <= 1) liveCount += 1;
+    const gap = x - currentX;
 
-    if (gap === 2) {
-      if (liveCount === 1) {
-        rlePattern += "o";
-      }
-      if (liveCount >= 2) {
-        rlePattern += `${liveCount}o`;
-      }
+    liveCount += 1;
+
+    if (gap === 1 && liveCount === 1) {
       rlePattern += "b";
-      liveCount = 0;
     }
-    if (gap > 2) {
-      if (liveCount === 1) {
-        rlePattern += "o";
-      }
-      if (liveCount >= 2) {
-        rlePattern += `${liveCount}o`;
-      }
-      rlePattern += `${gap - 1}b`;
-      liveCount = 0;
+
+    if (gap >= 2) {
+      rlePattern += `${gap}b`;
     }
+
+    currentX = x + 1;
+    console.log(coord, liveCount, rlePattern);
   }
 
   if (liveCount === 1) {

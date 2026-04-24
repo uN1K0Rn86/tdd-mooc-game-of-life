@@ -245,4 +245,10 @@ describe("RLE converter", () => {
 
     expect(rleConverter(blockPattern)).to.equal("2o$2o!");
   });
+
+  test("converts glider pattern back to RLE format", () => {
+    const gliderPattern = new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]);
+
+    expect(rleConverter(gliderPattern)).to.equal("bob$2bo$3o!");
+  });
 });
