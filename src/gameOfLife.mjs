@@ -130,6 +130,7 @@ export function rleConverter(setPattern) {
   let currentY = ymin;
   let rlePattern = "";
   let liveCount = 0;
+  let firstOnRow = true;
 
   for (const coord of patternArray) {
     const [x, y] = coord;
@@ -143,29 +144,43 @@ export function rleConverter(setPattern) {
       if (liveCount >= 2) {
         rlePattern += `${liveCount}o`;
       }
-      if (endGap > 0) {
-        rlePattern += endGap >= 2 ? `${endGap}b` : "b";
+      if (endGap === 1) {
+        rlePattern += "b";
       }
       rlePattern += "$";
       currentY = y;
       currentX = xmin;
       liveCount = 0;
+      firstOnRow = true;
     }
 
     const gap = x - currentX;
 
-    liveCount += 1;
-
-    if (gap === 1 && liveCount === 1) {
+    if (gap === 1) {
+      if (liveCount === 1 && !firstOnRow) {
+        rlePattern += "o";
+      }
+      if (liveCount >= 2) {
+        rlePattern += `${liveCount}o`;
+      }
       rlePattern += "b";
     }
 
     if (gap >= 2) {
+      if (liveCount === 1 && !firstOnRow) {
+        rlePattern += "o";
+      }
+      if (liveCount >= 2) {
+        rlePattern += `${liveCount}o`;
+      }
       rlePattern += `${gap}b`;
     }
 
+    if (gap > 0) liveCount = 0;
+    liveCount += 1;
+
     currentX = x + 1;
-    console.log(coord, liveCount, rlePattern);
+    firstOnRow = false;
   }
 
   if (liveCount === 1) {
@@ -174,6 +189,7 @@ export function rleConverter(setPattern) {
   if (liveCount >= 2) {
     rlePattern += `${liveCount}o`;
   }
+
   return rlePattern + "!";
 }
 
