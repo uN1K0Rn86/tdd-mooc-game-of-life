@@ -223,6 +223,61 @@ describe("Game of Life", () => {
   });
 
   describe("multiple generations", () => {
+    test("5 generations of gosper glider gun returns correct result", () => {
+      const gliderGunPattern = parsePattern(
+        "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!",
+      );
+
+      expect(gameOfLife(gliderGunPattern, 5)).to.deep.equal(
+        new Set([
+          "22,0",
+          "23,0",
+          "24,1",
+          "11,2",
+          "12,2",
+          "25,2",
+          "34,2",
+          "35,2",
+          "11,3",
+          "12,3",
+          "17,3",
+          "25,3",
+          "34,3",
+          "35,3",
+          "0,4",
+          "1,4",
+          "8,4",
+          "9,4",
+          "15,4",
+          "16,4",
+          "25,4",
+          "0,5",
+          "1,5",
+          "7,5",
+          "8,5",
+          "9,5",
+          "15,5",
+          "18,5",
+          "19,5",
+          "24,5",
+          "8,6",
+          "9,6",
+          "16,6",
+          "17,6",
+          "18,6",
+          "19,6",
+          "20,6",
+          "22,6",
+          "23,6",
+          "11,7",
+          "12,7",
+          "17,7",
+          "11,8",
+          "12,8",
+        ]),
+      );
+    });
+
     test("50 generations of glider patterns returns correct result", () => {
       const gliderPattern = new Set(["1,0", "2,1", "0,2", "1,2", "2,2"]);
 
@@ -300,6 +355,32 @@ describe("RLE converter", () => {
 
     expect(rleConverter(gliderGunPattern)).to.equal(
       "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!",
+    );
+  });
+});
+
+describe("Integration tests", () => {
+  test("Pattern parser, Game of Life, and RLE converter return correct rle pattern after 5 generations of Gosper Glider Gun", () => {
+    const parsedGunPattern = parsePattern(
+      "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!",
+    );
+
+    const generatedPattern = gameOfLife(parsedGunPattern, 5);
+
+    expect(rleConverter(generatedPattern)).to.equal(
+      "22b2o$24bo$11b2o12bo8b2o$11b2o4bo7bo8b2o$2o6b2o5b2o8bo$2o5b3o5bo2b2o4bo$8b2o6b5ob2o$11b2o4bo$11b2o!",
+    );
+  });
+
+  test("Pattern parser, Game of Life, and RLE converter return correct rle pattern after 205 generations of Gosper Glider Gun", () => {
+    const parsedGunPattern = parsePattern(
+      "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!",
+    );
+
+    const generatedPattern = gameOfLife(parsedGunPattern, 205);
+
+    expect(rleConverter(generatedPattern)).to.equal(
+      "25b2o$25b2o$11bo10b2o6bo3b2o$11bobo7b3o5bo3bobo$2o12b2o6b2o6b5o$2o12b2o9b2o4b3o$14b2o9b2o$11bobo$11bo11bo$21bobo$22b2o5$30bo$31bo$29b3o6$38bo$36bobo$37b2o5$45bo$46bo$44b3o6$53bo$51bobo$52b2o5$60bo$61bo$59b3o6$68bo$66bobo$67b2o!",
     );
   });
 });

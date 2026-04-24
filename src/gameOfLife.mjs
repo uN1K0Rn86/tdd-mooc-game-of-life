@@ -121,10 +121,11 @@ export function rleConverter(setPattern) {
     if (x > xmax) xmax = x;
     if (y > ymax) ymax = y;
 
-    patternArray.push([Number(x), Number(y)]);
+    patternArray.push([x, y]);
   }
 
   patternArray.sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+  console.log(patternArray);
 
   let currentX = xmin;
   let currentY = ymin;
@@ -136,6 +137,7 @@ export function rleConverter(setPattern) {
     const [x, y] = coord;
 
     if (y > currentY) {
+      const lineGap = y - currentY;
       const endGap = xmax - currentX + 1;
 
       if (liveCount === 1) {
@@ -147,7 +149,7 @@ export function rleConverter(setPattern) {
       if (endGap === 1) {
         rlePattern += "b";
       }
-      rlePattern += "$";
+      rlePattern += lineGap > 1 ? `${lineGap}$` : "$";
       currentY = y;
       currentX = xmin;
       liveCount = 0;
