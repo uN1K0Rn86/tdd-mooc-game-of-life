@@ -106,9 +106,86 @@ export function gameOfLife(parsedPattern, generations) {
   return gameOfLife(newPattern, generations - 1);
 }
 
+export function rleConverter(setPattern) {
+  const patternArray = [];
+  let xmin = Infinity;
+  let ymin = Infinity;
+  let xmax = -Infinity;
+  let ymax = -Infinity;
+
+  for (const coord of setPattern) {
+    const [x, y] = coord.split(",").map(Number);
+
+    if (x < xmin) xmin = x;
+    if (y < ymin) ymin = y;
+    if (x > xmax) xmax = x;
+    if (y > ymax) ymax = y;
+
+    patternArray.push([Number(x), Number(y)]);
+  }
+
+  patternArray.sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+
+  let lastX = xmin;
+  let lastY = ymin;
+  let rlePattern = "";
+  let liveCount = 0;
+
+  for (const coord of patternArray) {
+    const [x, y] = coord;
+    const gap = x - lastX;
+
+    if (y > lastY) {
+      if (liveCount === 1) {
+        rlePattern += "o";
+      }
+      if (liveCount >= 2) {
+        rlePattern += `${liveCount}o`;
+      }
+      rlePattern += "$";
+      lastY = y;
+      lastX = xmin;
+      liveCount = 0;
+    }
+
+    if (gap >= 0 && gap <= 1) liveCount += 1;
+
+    if (gap === 2) {
+      if (liveCount === 1) {
+        rlePattern += "o";
+      }
+      if (liveCount >= 2) {
+        rlePattern += `${liveCount}o`;
+      }
+      rlePattern += "b";
+      liveCount = 0;
+    }
+    if (gap > 2) {
+      if (liveCount === 1) {
+        rlePattern += "o";
+      }
+      if (liveCount >= 2) {
+        rlePattern += `${liveCount}o`;
+      }
+      rlePattern += `${gap - 1}b`;
+      liveCount = 0;
+    }
+  }
+
+  if (liveCount === 1) {
+    rlePattern += "o";
+  }
+  if (liveCount >= 2) {
+    rlePattern += `${liveCount}o`;
+  }
+  return rlePattern + "!";
+}
+
 export async function main(filepath, generations) {
   const input = await readRLEfile(filepath);
   const parsedInput = parseInput(input);
   const parsedPattern = parsePattern(parsedInput.pattern);
-  return 1;
+  const setResult = gameOfLife(parsedPattern, generations);
+
+  return setResult;
 }

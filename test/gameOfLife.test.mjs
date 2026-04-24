@@ -1,6 +1,6 @@
 import { describe, test } from "vitest";
 import { expect } from "chai";
-import { main, gameOfLife, readRLEfile, parseInput, parsePattern } from "../src/gameOfLife.mjs";
+import { main, gameOfLife, readRLEfile, parseInput, parsePattern, rleConverter } from "../src/gameOfLife.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
 import dedent from "dedent";
@@ -236,5 +236,13 @@ describe("Game of Life", () => {
         new Set(["251,250", "252,251", "250,252", "251,252", "252,252"]),
       );
     });
+  });
+});
+
+describe("RLE converter", () => {
+  test("converts block pattern back to RLE format", () => {
+    const blockPattern = new Set(["0,0", "1,0", "0,1", "1,1"]);
+
+    expect(rleConverter(blockPattern)).to.equal("2o$2o!");
   });
 });
