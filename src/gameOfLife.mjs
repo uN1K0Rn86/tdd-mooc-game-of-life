@@ -37,6 +37,10 @@ export function parseInput(fileContents) {
       result.rule = data.rule;
     } else if (line.startsWith("#O")) {
       result.filedata = line.replace("#O ", "");
+    } else if (line.startsWith("#P")) {
+      const coords = line.replace("#P ", "");
+      const [x, y] = coords.split(" ");
+      result.pos = [Number(x), Number(y)];
     } else {
       if (!result.pattern) {
         result.pattern = line;
