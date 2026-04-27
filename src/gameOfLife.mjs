@@ -148,6 +148,7 @@ export function rleConverter(setPattern) {
       if (endGap === 1) {
         rlePattern += "b";
       }
+
       rlePattern += lineGap > 1 ? `${lineGap}$` : "$";
       currentY = y;
       currentX = xmin;
@@ -194,6 +195,8 @@ export async function main(filepath, generations) {
   const parsedInput = parseInput(input);
   const parsedPattern = parsePattern(parsedInput.pattern);
   const setResult = gameOfLife(parsedPattern, generations);
+  const generatedPattern = rleConverter(setResult);
+  const result = { ...parsedInput, pattern: generatedPattern };
 
-  return setResult;
+  return result;
 }

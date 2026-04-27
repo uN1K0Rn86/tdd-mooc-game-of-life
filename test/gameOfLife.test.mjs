@@ -405,4 +405,22 @@ describe("Integration tests", () => {
       "25b2o$25b2o$11bo10b2o6bo3b2o$11bobo7b3o5bo3bobo$2o12b2o6b2o6b5o$2o12b2o9b2o4b3o$14b2o9b2o$11bobo$11bo11bo$21bobo$22b2o5$30bo$31bo$29b3o6$38bo$36bobo$37b2o5$45bo$46bo$44b3o6$53bo$51bobo$52b2o5$60bo$61bo$59b3o6$68bo$66bobo$67b2o!",
     );
   });
+
+  test("Main function should return parsed input with updated pattern", async () => {
+    const testFilePath = path.resolve(__dirname, "../testdata/glider.rle");
+    const gOL = await main(testFilePath, 5);
+
+    expect(gOL).to.deep.equal({
+      name: "Glider",
+      filedata: "Richard K. Guy",
+      comments: [
+        "The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.",
+        "www.conwaylife.com/wiki/index.php?title=Glider",
+      ],
+      width: 3,
+      height: 3,
+      rule: "B3/S23",
+      pattern: "obo$b2o$bo!",
+    });
+  });
 });
