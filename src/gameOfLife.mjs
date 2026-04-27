@@ -143,12 +143,8 @@ export function rleConverter(setPattern) {
       const lineGap = y - currentY;
       const endGap = xmax - currentX + 1;
 
-      if (liveCount === 1) {
-        rlePattern += "o";
-      }
-      if (liveCount >= 2) {
-        rlePattern += `${liveCount}o`;
-      }
+      rlePattern += liveCount === 1 ? "o" : `${liveCount}o`;
+
       if (endGap === 1) {
         rlePattern += "b";
       }
