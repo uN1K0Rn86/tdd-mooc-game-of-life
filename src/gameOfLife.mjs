@@ -206,6 +206,26 @@ export function findPosition(setResult) {
   return `${minX},${minY}`;
 }
 
+export function objectToString(golObject) {
+  let result = "";
+
+  if (!!golObject.name) {
+    result += `#N ${golObject.name}\n`;
+  }
+  if (!!golObject.filedata) {
+    result += `#O ${golObject.filedata}\n`;
+  }
+  if (!!golObject.comments && golObject.comments.length > 0) {
+    for (const comment of golObject.comments) {
+      result += `#C ${comment}\n`;
+    }
+  }
+  result += `x = ${golObject.width}, y = ${golObject.height}, rule = ${golObject.rule}\n`;
+  result += golObject.pattern;
+
+  return result;
+}
+
 export async function main(filepath, generations) {
   const input = await readRLEfile(filepath);
   const parsedInput = parseInput(input);

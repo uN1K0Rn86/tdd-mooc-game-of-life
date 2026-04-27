@@ -8,6 +8,7 @@ import {
   parseInput,
   parsePattern,
   rleConverter,
+  objectToString,
 } from "../src/gameOfLife.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -400,6 +401,27 @@ describe("Find position", () => {
     const input = new Set(["1,2", "3,2", "2,3", "3,3", "2,4"]);
 
     expect(findPosition(input)).to.equal("1,2");
+  });
+});
+
+describe("Object to string function", () => {
+  test("creates a string that matches valid RLE format", () => {
+    const objectToConvert = {
+      name: "Blinker",
+      filedata: "John Conway",
+      comments: [
+        "A period 2 oscillator that is the smallest and most common oscillator.",
+        "www.conwaylife.com/wiki/index.php?title=Blinker",
+      ],
+      width: 3,
+      height: 1,
+      rule: "B3/S23",
+      pattern: "3o!",
+    };
+
+    expect(objectToString(objectToConvert)).to.equal(
+      "#N Blinker\n#O John Conway\n#C A period 2 oscillator that is the smallest and most common oscillator.\n#C www.conwaylife.com/wiki/index.php?title=Blinker\nx = 3, y = 1, rule = B3/S23\n3o!",
+    );
   });
 });
 
