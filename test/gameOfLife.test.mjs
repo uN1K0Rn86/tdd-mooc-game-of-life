@@ -202,6 +202,33 @@ describe("RLE file parser", () => {
       pattern: "bob$2bo$3o!",
     });
   });
+
+  test("returns an appropriate object if position info is marked with #R", () => {
+    const input = dedent`
+      #N Glider
+      #O Richard K. Guy
+      #C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
+      #C www.conwaylife.com/wiki/index.php?title=Glider
+      #R 0 0
+      x = 3, y = 3, rule = B3/S23
+      bob$2bo$3o!`;
+
+    const parsedInput = parseInput(input);
+
+    expect(parsedInput).to.deep.equal({
+      name: "Glider",
+      filedata: "Richard K. Guy",
+      comments: [
+        "The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.",
+        "www.conwaylife.com/wiki/index.php?title=Glider",
+      ],
+      pos: [0, 0],
+      width: 3,
+      height: 3,
+      rule: "B3/S23",
+      pattern: "bob$2bo$3o!",
+    });
+  });
 });
 
 describe("Pattern parser", () => {

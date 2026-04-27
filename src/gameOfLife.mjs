@@ -41,6 +41,10 @@ export function parseInput(fileContents) {
       const coords = line.replace("#P ", "");
       const [x, y] = coords.split(" ");
       result.pos = [Number(x), Number(y)];
+    } else if (line.startsWith("#R")) {
+      const coords = line.replace("#R ", "");
+      const [x, y] = coords.split(" ");
+      result.pos = [Number(x), Number(y)];
     } else {
       if (!result.pattern) {
         result.pattern = line;
