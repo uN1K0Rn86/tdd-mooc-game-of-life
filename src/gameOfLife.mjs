@@ -203,7 +203,7 @@ export function findPosition(setResult) {
   const minX = Math.min(...allX);
   const minY = Math.min(...allY);
 
-  return `${minX},${minY}`;
+  return [minX, minY];
 }
 
 export function objectToString(golObject) {
@@ -220,6 +220,10 @@ export function objectToString(golObject) {
       result += `#C ${comment}\n`;
     }
   }
+  if (!!golObject.pos) {
+    result += `#P ${golObject.pos[0]} ${golObject.pos[1]}\n`;
+  }
+
   result += `x = ${golObject.width}, y = ${golObject.height}, rule = ${golObject.rule}\n`;
   result += golObject.pattern;
 
@@ -233,8 +237,8 @@ export async function main(filepath, generations) {
   const setResult = gameOfLife(parsedPattern, generations);
   const generatedPattern = rleConverter(setResult);
   const position = findPosition(setResult);
-
-  const result = { ...parsedInput, pattern: generatedPattern, pos: position };
+  const golObject = { ...parsedInput, pattern: generatedPattern, pos: position };
+  const result = objectToString(golObject);
 
   return result;
 }

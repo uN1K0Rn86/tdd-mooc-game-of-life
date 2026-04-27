@@ -394,13 +394,13 @@ describe("Find position", () => {
   test("finds top left corner of block pattern", () => {
     const input = new Set(["0,0", "1,0", "0,1", "1,1"]);
 
-    expect(findPosition(input)).to.equal("0,0");
+    expect(findPosition(input)).to.deep.equal([0, 0]);
   });
 
   test("finds top left corner of glider pattern after 5 generations", () => {
     const input = new Set(["1,2", "3,2", "2,3", "3,3", "2,4"]);
 
-    expect(findPosition(input)).to.equal("1,2");
+    expect(findPosition(input)).to.deep.equal([1, 2]);
   });
 });
 
@@ -450,22 +450,18 @@ describe("Integration tests", () => {
     );
   });
 
-  test("Main function should return parsed input with updated pattern", async () => {
+  test("Main function should return a string matching a valid RLE format with updated pattern", async () => {
     const testFilePath = path.resolve(__dirname, "../testdata/glider.rle");
     const gOL = await main(testFilePath, 5);
 
-    expect(gOL).to.deep.equal({
-      name: "Glider",
-      filedata: "Richard K. Guy",
-      comments: [
-        "The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.",
-        "www.conwaylife.com/wiki/index.php?title=Glider",
-      ],
-      pos: "1,2",
-      width: 3,
-      height: 3,
-      rule: "B3/S23",
-      pattern: "obo$b2o$bo!",
-    });
+    const validRleString = dedent`#N Glider
+      #O Richard K. Guy
+      #C The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.
+      #C www.conwaylife.com/wiki/index.php?title=Glider
+      #P 1 2
+      x = 3, y = 3, rule = B3/S23
+      obo$b2o$bo!`;
+
+    expect(gOL).to.equal(validRleString);
   });
 });
