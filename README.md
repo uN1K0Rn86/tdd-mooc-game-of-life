@@ -21,3 +21,9 @@ Run tests continuously
 Code reformat
 
     npm run format
+
+## Running the program
+
+```
+node src/run.mjs <filepath> <generations>
+```
