@@ -19,6 +19,12 @@ export function parseInput(fileContents) {
       } else {
         result.comments.push(line.replace("#C", ""));
       }
+    } else if (line.startsWith("#c")) {
+      if (line.startsWith("#c ")) {
+        result.comments.push(line.replace("#c ", ""));
+      } else {
+        result.comments.push(line.replace("#c", ""));
+      }
     } else if (line.startsWith("x = ")) {
       const parts = line.split(",");
       const data = {};
