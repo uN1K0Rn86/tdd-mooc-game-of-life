@@ -14,7 +14,11 @@ export function parseInput(fileContents) {
     if (line.startsWith("#N")) {
       result.name = line.replace("#N ", "");
     } else if (line.startsWith("#C")) {
-      result.comments.push(line.replace("#C ", ""));
+      if (line.startsWith("#C ")) {
+        result.comments.push(line.replace("#C ", ""));
+      } else {
+        result.comments.push(line.replace("#C", ""));
+      }
     } else if (line.startsWith("x = ")) {
       const parts = line.split(",");
       const data = {};
@@ -125,7 +129,6 @@ export function rleConverter(setPattern) {
   }
 
   patternArray.sort((a, b) => a[1] - b[1] || a[0] - b[0]);
-  console.log(patternArray);
 
   let currentX = xmin;
   let currentY = ymin;
@@ -185,12 +188,7 @@ export function rleConverter(setPattern) {
     firstOnRow = false;
   }
 
-  if (liveCount === 1) {
-    rlePattern += "o";
-  }
-  if (liveCount >= 2) {
-    rlePattern += `${liveCount}o`;
-  }
+  rlePattern += liveCount === 1 ? "o" : `${liveCount}o`;
 
   return rlePattern + "!";
 }

@@ -119,6 +119,28 @@ describe("RLE file parser", () => {
       pattern: "24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4bobo$10bo5bo7bo$11bo3bo$12b2o!",
     });
   });
+
+  test("returns an appropriate object after processing input from a file saved by Golly", () => {
+    const input = dedent`
+      #CXRLE Pos=0,0 Gen=205
+      x = 69, y = 56, rule = B3/S23
+      25b2o$25b2o$11bo10b2o6bo3b2o$11bobo7b3o5bo3bobo$2o12b2o6b2o6b5o$2o12b
+      2o9b2o4b3o$14b2o9b2o$11bobo$11bo11bo$21bobo$22b2o5$30bo$31bo$29b3o6$
+      38bo$36bobo$37b2o5$45bo$46bo$44b3o6$53bo$51bobo$52b2o5$60bo$61bo$59b3o
+      6$68bo$66bobo$67b2o!
+      `;
+
+    const parsedInput = parseInput(input);
+
+    expect(parsedInput).to.deep.equal({
+      comments: ["XRLE Pos=0,0 Gen=205"],
+      width: 69,
+      height: 56,
+      rule: "B3/S23",
+      pattern:
+        "25b2o$25b2o$11bo10b2o6bo3b2o$11bobo7b3o5bo3bobo$2o12b2o6b2o6b5o$2o12b2o9b2o4b3o$14b2o9b2o$11bobo$11bo11bo$21bobo$22b2o5$30bo$31bo$29b3o6$38bo$36bobo$37b2o5$45bo$46bo$44b3o6$53bo$51bobo$52b2o5$60bo$61bo$59b3o6$68bo$66bobo$67b2o!",
+    });
+  });
 });
 
 describe("Pattern parser", () => {
