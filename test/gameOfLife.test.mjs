@@ -1,6 +1,14 @@
 import { describe, test } from "vitest";
 import { expect } from "chai";
-import { main, gameOfLife, readRLEfile, parseInput, parsePattern, rleConverter } from "../src/gameOfLife.mjs";
+import {
+  main,
+  gameOfLife,
+  findPosition,
+  readRLEfile,
+  parseInput,
+  parsePattern,
+  rleConverter,
+} from "../src/gameOfLife.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
 import dedent from "dedent";
@@ -381,6 +389,20 @@ describe("RLE converter", () => {
   });
 });
 
+describe("Find position", () => {
+  test("finds top left corner of block pattern", () => {
+    const input = new Set(["0,0", "1,0", "0,1", "1,1"]);
+
+    expect(findPosition(input)).to.equal("0,0");
+  });
+
+  test("finds top left corner of glider pattern after 5 generations", () => {
+    const input = new Set(["1,2", "3,2", "2,3", "3,3", "2,4"]);
+
+    expect(findPosition(input)).to.equal("1,2");
+  });
+});
+
 describe("Integration tests", () => {
   test("Pattern parser, Game of Life, and RLE converter return correct rle pattern after 5 generations of Gosper Glider Gun", () => {
     const parsedGunPattern = parsePattern(
@@ -417,6 +439,7 @@ describe("Integration tests", () => {
         "The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.",
         "www.conwaylife.com/wiki/index.php?title=Glider",
       ],
+      // pos: [1, 2],
       width: 3,
       height: 3,
       rule: "B3/S23",

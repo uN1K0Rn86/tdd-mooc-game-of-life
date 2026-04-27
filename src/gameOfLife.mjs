@@ -190,11 +190,28 @@ export function rleConverter(setPattern) {
   return rlePattern + "!";
 }
 
+export function findPosition(setResult) {
+  const allX = [];
+  const allY = [];
+
+  for (const coord of setResult) {
+    const [x, y] = coord.split(",");
+    allX.push(x);
+    allY.push(y);
+  }
+
+  const minX = Math.min(...allX);
+  const minY = Math.min(...allY);
+
+  return `${minX},${minY}`;
+}
+
 export async function main(filepath, generations) {
   const input = await readRLEfile(filepath);
   const parsedInput = parseInput(input);
   const parsedPattern = parsePattern(parsedInput.pattern);
   const setResult = gameOfLife(parsedPattern, generations);
+  console.log(setResult);
   const generatedPattern = rleConverter(setResult);
   const result = { ...parsedInput, pattern: generatedPattern };
 
