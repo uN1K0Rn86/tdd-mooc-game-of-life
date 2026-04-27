@@ -439,7 +439,7 @@ describe("Integration tests", () => {
         "The smallest, most common, and first discovered spaceship. Diagonal, has period 4 and speed c/4.",
         "www.conwaylife.com/wiki/index.php?title=Glider",
       ],
-      // pos: [1, 2],
+      pos: "1,2",
       width: 3,
       height: 3,
       rule: "B3/S23",

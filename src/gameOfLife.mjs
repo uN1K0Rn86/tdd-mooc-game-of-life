@@ -211,9 +211,10 @@ export async function main(filepath, generations) {
   const parsedInput = parseInput(input);
   const parsedPattern = parsePattern(parsedInput.pattern);
   const setResult = gameOfLife(parsedPattern, generations);
-  console.log(setResult);
   const generatedPattern = rleConverter(setResult);
-  const result = { ...parsedInput, pattern: generatedPattern };
+  const position = findPosition(setResult);
+
+  const result = { ...parsedInput, pattern: generatedPattern, pos: position };
 
   return result;
 }
